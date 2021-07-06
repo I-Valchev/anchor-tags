@@ -1,12 +1,12 @@
 {
-    "name": "acmecorp/reference-extension",
-    "description": "📦 This Bolt extension can be used as a starting point to base your own extensions on.",
+    "name": "ivo-valchev/anchor-tags",
+    "description": "🏷 This Bolt extension adds IDs to HTML elements for use as anchor tags.",
     "type": "bolt-extension",
     "license": "MIT",
     "authors": [
         {
-            "name": "YourNameHere",
-            "email": "youremail@acme.com"
+            "name": "Ivo Valchev",
+            "email": "me@ivovalchev.com"
         }
     ],
     "require": {
@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "AcmeCorp\\ReferenceExtension\\": "src/"
+            "IvoValchev\\AnchorTags\\": "src/"
         }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "extra": {
-        "entrypoint": "AcmeCorp\\ReferenceExtension\\Extension"
+        "entrypoint": "IvoValchev\\AnchorTags\\Extension"
     }
 }
