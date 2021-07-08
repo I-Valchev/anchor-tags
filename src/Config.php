@@ -30,7 +30,7 @@ class Config
 
         $extension = $this->getExtension();
 
-        $this->config = array_merge_recursive($this->getDefault(), $extension->getConfig()->toArray());
+        $this->config = array_replace_recursive($this->getDefault(), $extension->getConfig()->toArray());
 
         return $this->config;
     }
