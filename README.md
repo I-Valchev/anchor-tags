@@ -1,13 +1,30 @@
-# Acme ReferenceExtension
+# Anchor tags extension
 
-Author: YourNameHere
+Author: Ivo Valchev
 
-This Bolt extension can be used as a starting point to base your own extensions on.
+🏷 This Bolt extension adds IDs to HTML elements for use as anchor tags.
 
 Installation:
 
 ```bash
-composer require acmecorp/reference-extension
+composer require ivo-valchev/anchor-tags
+```
+
+## Usage
+
+See the `ivovalchev-anchortags.yaml` for all configuration options.
+
+In addition, you can use the `anchor_tags` filter to add anchor tags
+to specific HTML, like so:
+
+```twig
+{% set html %}
+<h2>Hi there</h2>
+<p>I am some html.</p>
+<strong>It only works on here.</strong>
+{% endset %}
+
+{{ html|anchor_tags }}
 ```
 
 
