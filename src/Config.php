@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IvoValchev\AnchorTags;
 
 use Bolt\Extension\ExtensionRegistry;
 
 class Config
 {
-    /** @var  */
+    /** @var */
     private $config;
 
     /** @var ExtensionRegistry */

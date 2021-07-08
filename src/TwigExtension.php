@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IvoValchev\AnchorTags;
 
 use Bolt\Entity\FieldInterface;
@@ -23,7 +25,7 @@ class TwigExtension extends AbstractExtension
         ];
 
         return [
-            new TwigFilter('anchor_tags', [$this, 'addAnchorTags'], $safe)
+            new TwigFilter('anchor_tags', [$this, 'addAnchorTags'], $safe),
         ];
     }
 
@@ -31,7 +33,7 @@ class TwigExtension extends AbstractExtension
     {
         if ($object instanceof FieldInterface) {
             $object = $object->__toString();
-        } else if (! is_string($object)) {
+        } elseif (! is_string($object)) {
             $object = (string) $object;
         }
 

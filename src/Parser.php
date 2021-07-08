@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IvoValchev\AnchorTags;
 
 use Bolt\Common\Str;
 use Cocur\Slugify\Slugify;
-use Twig\Environment;
 
 class Parser
 {
@@ -14,17 +15,13 @@ class Parser
     /** @var Slugify */
     private $slugify;
 
-    /** @var Environment */
-    private $twig;
-
     /** @var AppendLinkParser */
     private $appendLinkParser;
 
-    public function __construct(Config $config, Environment $twig, AppendLinkParser $appendLinkParser)
+    public function __construct(Config $config, AppendLinkParser $appendLinkParser)
     {
         $this->config = $config;
         $this->slugify = Slugify::create();
-        $this->twig = $twig;
         $this->appendLinkParser = $appendLinkParser;
     }
 
@@ -32,9 +29,9 @@ class Parser
     {
         $tags = $this->config->getConfig()['tags'];
 
-        foreach($tags as $tag) {
+        foreach ($tags as $tag) {
             $regex = $this->getRegex($tag);
-            preg_match_all($regex, $html,$attributes);
+            preg_match_all($regex, $html, $attributes);
 
             $htmlTags = array_shift($attributes);
             $html = $this->handleTags($tag, $htmlTags, $attributes, $html);
@@ -63,7 +60,8 @@ class Parser
     {
         foreach ($attributes as $attribute) {
             if (Str::startsWith($attribute, 'id')) {
-                return $htmlTag; // bail out. We don't change existing IDs.
+                // bail out. We don't change existing IDs.
+                return $htmlTag;
             }
         }
 
@@ -81,9 +79,8 @@ class Parser
         }
 
         $anchorLink = $this->appendLinkParser->generate($id);
-        $htmlTag = str_replace($this->getCloseTag($tag), $this->getCloseTagWithAnchorLink($tag, $anchorLink), $htmlTag);
 
-        return $htmlTag;
+        return str_replace($this->getCloseTag($tag), $this->getCloseTagWithAnchorLink($tag, $anchorLink), $htmlTag);
     }
 
     private function generateIdFromHtml(string $html): string
@@ -91,10 +88,9 @@ class Parser
         $text = strip_tags($html);
         $maxLength = $this->config->getConfig()['max_length'];
 
-        $text = substr($text, 0, $maxLength);
-        $text = $this->slugify->slugify($text);
+        $text = mb_substr($text, 0, $maxLength);
 
-        return $text;
+        return $this->slugify->slugify($text);
     }
 
     private function getOpenTag(string $tag): string
@@ -104,7 +100,7 @@ class Parser
 
     private function getOpenTagWithId(string $tag, string $id): string
     {
-        return sprintf("%s %s", $this->getOpenTag($tag),
+        return sprintf('%s %s', $this->getOpenTag($tag),
             sprintf("id='%s'", $id)
         );
     }
@@ -116,7 +112,7 @@ class Parser
 
     private function getCloseTagWithAnchorLink(string $tag, string $anchorLink): string
     {
-        return sprintf("%s%s", $anchorLink, $this->getCloseTag($tag));
+        return sprintf('%s%s', $anchorLink, $this->getCloseTag($tag));
     }
 
     private function getRegex(string $tag): string

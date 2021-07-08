@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace IvoValchev\AnchorTags;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -8,7 +10,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ResponseSubscriber implements EventSubscriberInterface
 {
-    const PRIORITY = 0;
+    public const PRIORITY = 0;
 
     /** @var Parser */
     private $parser;
@@ -37,7 +39,7 @@ class ResponseSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            KernelEvents::RESPONSE => [['onKernelResponse', self::PRIORITY]]
+            KernelEvents::RESPONSE => [['onKernelResponse', self::PRIORITY]],
         ];
     }
 }
