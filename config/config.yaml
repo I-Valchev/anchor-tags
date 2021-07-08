@@ -1,3 +1,13 @@
-# Reference extension configuration file
+#  Anchor Tags extension
 
-foo: Bar
+# List all HTML tags to generate id's for.
+tags: [ h2, h3, h4, h5, h6 ]
+
+# Specify the maximum length for an id value
+max_length: 50
+
+# Enable for the entire response HTML.
+global: true
+
+# Enable the anchor link &para;
+append_link: true

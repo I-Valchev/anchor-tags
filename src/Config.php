@@ -17,7 +17,6 @@ class Config
 
     public function __construct(ExtensionRegistry $registry)
     {
-
         $this->registry = $registry;
     }
 
@@ -29,13 +28,27 @@ class Config
 
         $extension = $this->getExtension();
 
-        $this->config = $extension->getConfig();
+        $this->config = array_merge_recursive($this->getDefault(), $extension->getConfig()->toArray());
 
         return $this->config;
     }
 
     private function getExtension()
     {
-        return  $this->extension = $this->registry->getExtension(Extension::class);
+        if (! $this->extension) {
+            $this->extension = $this->registry->getExtension(Extension::class);
+        }
+
+        return $this->extension;
+    }
+
+    private function getDefault(): array
+    {
+        return [
+            'tags' => ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+            'max_length' => 50,
+            'global' => true,
+            'append_link' => true,
+        ];
     }
 }
