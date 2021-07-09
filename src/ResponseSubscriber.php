@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace IvoValchev\AnchorTags;
 
+use Bolt\Widget\Injector\RequestZone;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -26,6 +27,12 @@ class ResponseSubscriber implements EventSubscriberInterface
 
     public function onKernelResponse(ResponseEvent $event): void
     {
+        $request = $event->getRequest();
+
+        if (RequestZone::getFromRequest($request) !== RequestZone::FRONTEND) {
+            return;
+        }
+
         if ($this->config->getConfig()['global'] === false) {
             return;
         }
