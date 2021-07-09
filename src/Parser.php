@@ -117,6 +117,6 @@ class Parser
 
     private function getRegex(string $tag): string
     {
-        return sprintf("/<%s\s*(.*?)>\s*.*?<\/%s>/", $tag, $tag);
+        return sprintf("/<%s\s*(.*?)>\s*.*?\s*<\/%s>/", $tag, $tag);
     }
 }
