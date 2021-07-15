@@ -18,11 +18,15 @@ class Parser
     /** @var AppendLinkParser */
     private $appendLinkParser;
 
+    /** @var array */
+    private $anchors;
+
     public function __construct(Config $config, AppendLinkParser $appendLinkParser)
     {
         $this->config = $config;
         $this->slugify = Slugify::create();
         $this->appendLinkParser = $appendLinkParser;
+        $this->anchors = [];
     }
 
     public function parse(string $html): string
@@ -90,7 +94,17 @@ class Parser
 
         $text = mb_substr($text, 0, $maxLength);
 
-        return $this->slugify->slugify($text);
+        $slug = $this->slugify->slugify($text);
+
+        if (array_key_exists($slug, $this->anchors)) {
+            $anchor = $slug . '-' . $this->anchors[$slug];
+            $this->anchors[$slug]++;
+        } else {
+            $anchor = $slug;
+            $this->anchors[$slug] = 1;
+        }
+
+        return $anchor;
     }
 
     private function getOpenTag(string $tag): string
